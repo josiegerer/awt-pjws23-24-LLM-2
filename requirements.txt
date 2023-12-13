@@ -1,0 +1,3 @@
+langchain 
+-U sentence-transformers 
+faiss-cpu
