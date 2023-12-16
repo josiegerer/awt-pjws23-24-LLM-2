@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>User List</h1>
     <div v-if="users.length > 0">
       <router-link
         v-for="user in users" 
@@ -20,7 +19,6 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 import UserCreateModal from './UserCreateModal.vue';
 
@@ -82,4 +80,5 @@ export default {
 .user-box:hover {
   background-color: #f0f0f0;
 }
+
 </style>
