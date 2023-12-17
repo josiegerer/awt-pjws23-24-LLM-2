@@ -1,20 +1,10 @@
-import { createApp } from 'vue';
-import App from './App.vue';
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from "./routers"
 import 'bootstrap/dist/css/bootstrap.css';
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from './components/LoginPage.vue';
-import Chats from './components/ChatWindow.vue';
+// import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-const app = createApp(App);
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    { path: '/', component: Home },
-    { path: '/ChatWindow', component: Chats },
-  ],
-});
-
-app.use(router);
-
-app.mount("#app");
+const app = createApp(App)
+app.use(router)
+app.mount("#app")

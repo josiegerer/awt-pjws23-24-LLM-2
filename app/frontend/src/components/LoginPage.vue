@@ -8,11 +8,11 @@
         :to="'/user_chats/' + (user.id)"
       >
         {{ user.username }}
-    </router-link>
+      </router-link>
     </div>
     <div v-else>
      <!--_ <hr> -->
-      <p>No user is <span>registered</span> yet.</p>
+      <p>No user is <span>registered</span></p>
     </div>
     <user-create-modal @createUser="createUser" />
   </div>
