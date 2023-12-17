@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TestNavbar />
-    <!-- <LoginPage /> -->
+    <!-- <LoginPage />-->
     <!-- <UserChats />  -->
     <router-view></router-view>
   </div>
@@ -10,14 +10,14 @@
 
 <script>
 import TestNavbar from './components/TestNavbar.vue'
-// import LoginPage from './components/LoginPage.vue'
+//import LoginPage from './components/LoginPage.vue'
 // import UserChats from './components/UserChats.vue';
 
 export default {
   name: 'App',
   components: {
     TestNavbar,
-  //   LoginPage,
+  //LoginPage,
   //   UserChats
   }
 }

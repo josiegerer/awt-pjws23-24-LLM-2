@@ -12,7 +12,7 @@
     </div>
     <div v-else>
      <!--_ <hr> -->
-      <p>No user is <span>registered</span></p>
+      <p>No user is <span>registered</span> yet.</p>
     </div>
     <user-create-modal @createUser="createUser" />
   </div>

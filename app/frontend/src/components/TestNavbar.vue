@@ -7,12 +7,10 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ms-auto">
-      <a class="nav-item nav-link active" href="#">Home</a>
-      <a class="nav-item nav-link" href="#">Features</a>
+      <router-link to="/" exact class="nav-item nav-link active">Home</router-link>
+      <router-link class="nav-item nav-link" to="/ChatWindow">Chats</router-link>
       <a class="nav-item nav-link" href="#">Profile</a>
-      <a class="nav-item nav-link" href="#">Chat</a>
-      <a class="nav-item nav-link" href="#">Logout</a>
-      <a class="nav-item nav-link" href="#">Help</a>
+      <a class="nav-item nav-link nav-logout" href="#">Logout</a>
       <a class="nav-item nav-link" href="#"></a>
       <div class="logo-container">
           <span class="logo-text">langchatAI</span>
@@ -25,7 +23,6 @@
 
 <script>
 export default {
-
 }
 </script>
 
@@ -50,6 +47,12 @@ nav a{
   text-transform: uppercase;
   margin: 0 30px;
   font-style: normal;
+}
+
+.nav-logout{
+  margin-left: 70px;
+  margin-right: -30px;
+  border: #003EC6 1px solid;
 }
 
 nav img.logo {
