@@ -5,6 +5,7 @@
     <!-- <UserChats />  -->
     <router-view></router-view>
   </div>
+
 </template>
 
 <script>
@@ -22,6 +23,27 @@ export default {
 }
 </script>
 
+
 <style>
+@import url('https://fonts.googleapis.com/css?family=IBM Plex Mono');
+
+html, body{
+  font-family: 'IBM Plex Mono', monospace;
+  color:#353839;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+#app{
+  font-family: 'IBM Plex Mono', monospace;
+  background:#f9f9f9;
+    height: 100%;
+  width: 100%;
+
+}
+
 
 </style>

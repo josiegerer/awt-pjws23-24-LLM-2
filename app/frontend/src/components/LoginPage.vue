@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-creation">
     <div v-if="users.length > 0">
       <router-link
         v-for="user in users" 
@@ -11,7 +11,7 @@
     </router-link>
     </div>
     <div v-else>
-      <hr>
+     <!--_ <hr> -->
       <p>No user is <span>registered</span></p>
     </div>
     <user-create-modal @createUser="createUser" />
@@ -65,8 +65,8 @@ export default {
 <style>
 .user-box {
   display: inline-block;
-  margin: 10px;
-  padding: 10px;
+  margin: 50px;
+  padding: 50px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
@@ -79,6 +79,12 @@ export default {
 
 .user-box:hover {
   background-color: #f0f0f0;
+}
+
+div.user-creation{
+  margin: 50px;
+  text-align: center;
+  padding: 20px 20px;
 }
 
 </style>

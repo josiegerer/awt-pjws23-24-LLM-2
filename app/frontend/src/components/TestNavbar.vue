@@ -11,10 +11,12 @@
       <a class="nav-item nav-link" href="#">Features</a>
       <a class="nav-item nav-link" href="#">Profile</a>
       <a class="nav-item nav-link" href="#">Chat</a>
+      <a class="nav-item nav-link" href="#">Logout</a>
+      <a class="nav-item nav-link" href="#">Help</a>
       <a class="nav-item nav-link" href="#"></a>
       <div class="logo-container">
           <span class="logo-text">langchatAI</span>
-          <img class="logo" :src="require('@/assets/bubbleIconNew.png')" alt="Logo">
+          <img class="logo" :src="require('@/assets/logo.png')" alt="Logo">
       </div>
     </div>
   </div>
@@ -30,15 +32,14 @@ export default {
 <style>
 /* NAVIGATION */
 nav{
-  /* background-color: #e4e4e4; */
   width: 100%;
   margin: 0;
-  background:#f2f2f2;
+  background:#f9f9f9;
   padding-left: 0;
   position:fixed;
   top: 0;
   left: 0;
-  position: sticky; 
+  font-family: 'IBM Plex Mono', monospace;
 }
 nav a{
   display: inline-block;
@@ -51,15 +52,11 @@ nav a{
   font-style: normal;
 }
 
-nav.logo-container {
-  margin-left: auto;
-  margin-right: 20px;
-}
-
 nav img.logo {
   width: 50px;
   height: auto;
-  margin-right: 10px;
+  margin-right: 20px;
+  margin-left: 10px;
 }
 
 nav .logo-text {

@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submitForm">
-    <input type="text" v-model="username" required placeholder="Enter Username">
+    <input class="create-user-name" type="text" v-model="username" required placeholder="Enter Username">
     <button type="submit" class="btn btn-dark">Create User</button>
   </form>
 </template>
@@ -22,3 +22,25 @@ export default {
   },
 };
 </script>
+
+<style>
+button.btn-dark{
+  margin: 50px 30px;
+  height: 40px;
+  background-color: #888888; 
+  color: #fff;
+  border: transparent;
+}
+
+button.btn-dark:hover{
+  background-color: #003EC6;
+  color: #fff;
+  border: transparent;
+}
+
+input.create-user-name{
+  height: 40px;
+  margin-top: 50px;
+}
+
+</style>
