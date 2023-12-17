@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="chatwindow">
         <div class="language-style-div">
-            <h4> Language Style</h4>
+            <h6> Language Style</h6>
             <div>
                 <button class="language-style-btn" lang-style="Informal">Informal</button>  
             </div>
@@ -14,7 +14,7 @@
         </div>
 
         <div class="language-difficulty-div">
-            <h4> Difficulty Level</h4>
+            <h6> Difficulty Level</h6>
             <div>
                 <button class="language-diff-btn" lang-diff="Beginner">Beginner</button>  
             </div>
@@ -425,5 +425,6 @@ h4 {
   padding: 10px;
   margin-top: auto;
 }
+
 
 </style>

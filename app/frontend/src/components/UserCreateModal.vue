@@ -1,7 +1,9 @@
 <template>
   <form @submit.prevent="submitForm">
     <input class="create-user-name" type="text" v-model="username" required placeholder="Enter Username">
-    <button type="submit" class="btn btn-dark">Create User</button>
+    <button type="submit" class="btn btn-dark">
+      Create User
+    </button>
   </form>
 </template>
 
