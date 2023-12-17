@@ -321,7 +321,8 @@ button{
 #send-button{
   width: 80px;
   height: 30px;
-  margin: 0; 
+  margin-left: 10px; 
+  margin-right: 10px;
   cursor: pointer;
   border-radius: 10px;
   transition: background-color 0.3s ease;
@@ -413,7 +414,6 @@ h4 {
   padding: 10px;
   border: none;
   font-size: 14px;
-  margin-bottom: 10px; 
   resize: vertical;
   font-family: monospace;
 }
@@ -425,4 +425,5 @@ h4 {
   padding: 10px;
   margin-top: auto;
 }
+
 </style>
