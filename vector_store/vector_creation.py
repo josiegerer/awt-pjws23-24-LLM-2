@@ -14,7 +14,7 @@ def vector_store_creation():
     chunked_documents = text_splitter.split_documents(documents)
 
     embedding_model = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2", 
+        model_name="sentence-transformers/all-MiniLM-L12-v2", 
         model_kwargs={"device": "cpu"},)
 
     vector_store = FAISS.from_documents(
