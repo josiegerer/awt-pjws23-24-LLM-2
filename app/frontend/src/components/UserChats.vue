@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Chat Names</h1>
+    <h3>Chat Names</h3>
     <ul>
       <li v-for="chat in chats" :key="chat.chat_id">{{ chat.chat_name }}</li>
     </ul>

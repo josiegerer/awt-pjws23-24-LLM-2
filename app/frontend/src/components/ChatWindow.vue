@@ -351,7 +351,7 @@ h4 {
 .chat-container {
   width: 60%;
   height: 70vh; /* 70% of the viewport height */
-  margin: 30px auto;
+  margin: 20px auto;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
@@ -425,6 +425,5 @@ h4 {
   padding: 10px;
   margin-top: auto;
 }
-
 
 </style>

@@ -105,16 +105,16 @@ class ConversationAgent:
 	# 	return history
 
 	class TranslatorAgent(BaseAgent):
-	def __init__(self, language):
-		super().__init__()
+		def __init__(self, language):
+			super().__init__()
 
-		self.language = language
-		self.system_prompt = self.get_system_prompt(language=self.language)
-		
-		self.chain = LLMChain(
-			llm = self.llm,
-			prompt = self.system_prompt
-			)
+			self.language = language
+			self.system_prompt = self.get_system_prompt(language=self.language)
+			
+			self.chain = LLMChain(
+				llm = self.llm,
+				prompt = self.system_prompt
+				)
 
 	def get_system_prompt(self, language):
 		_template = " You are a friendly language teacher for the language {}. You translate that the text from {} to {} precisely. You do not halucinate or interpret the text of the user. The generated text must be in {}".format(dest_language, dest_language, source_language, source_language)
