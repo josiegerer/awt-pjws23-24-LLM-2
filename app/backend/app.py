@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 CORS(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:AWTProject24@localhost/new_schema"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:PW@localhost/new_schema"
 app.config["SQLALCHEMY:TRACK_MODIFICATIONS"] = False
 
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
