@@ -35,14 +35,31 @@ def retrieval_qa(llm, prompt, vector_store):
 
 
 def load_llm():
-    pass 
+    model_path ="/Users/Admin/Documents/llm/llama-2-7b-chat.Q4_K_M.gguf",
+    temperature=0.75,
+    max_tokens=2048,
+    top_p=1,
+	# callback_manager=callback_manager,
+    verbose=True  # Verbose is required to pass to the callback manager
 
+    
+
+# def get_llm(self, model_id="llama2_7b"):
+# 	self.llm = LlamaCpp(
+# 		#model_path="/Users/josi/Llama2_weights/llama-2-7b.Q4_K_M.gguf?download=true",
+# 		model_path = "/Users/josi/Llama2_weights/llama-2-7b-chat.Q5_K_M.gguf",
+# 		temperature=0.75,
+# 		max_tokens=2048,
+# 		top_p=1,
+# 		# callback_manager=callback_manager,
+# 		verbose=True,  # Verbose is required to pass to the callback manager
+# 	)
 
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L12-v2",
                                        model_kwargs={'device': 'cpu'})
     vector_store = FAISS.load_local('vector_store/faiss_store', embeddings)
-    # llm = load_llm() local llama 
+    llm = load_llm() 
     qa_prompt = qa_prompt()
     qa = retrieval_qa(llm, qa_prompt, vector_store)
 
@@ -54,11 +71,13 @@ def retriever_bot_answer(query):
     bot_response = qa_bot_instance({"query": query})
     return bot_response
 
+result = retriever_bot_answer("Wie viele Use Cases gibt es?")
+print(result)
 
-def result(query):
-    qa_result = qa_bot()
-    response = qa_result({'query': query})
-    return response
+# def result(query):
+#     qa_result = qa_bot()
+#     response = qa_result({'query': query})
+#     return response
 
 
 # def chat_history(query, answer):
