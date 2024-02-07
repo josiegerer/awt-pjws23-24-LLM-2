@@ -32,7 +32,8 @@ class BaseAgent:
 	def check_break_condition(self, human_message):
 		if human_message == "exit":
 			return 0
-		else 1
+		else:
+			return 1
 
 	def load_conversation(self, user, chat_id):
 		pass
@@ -157,7 +158,7 @@ class EndlessConversation(BaseAgent):
 			)
 
 	def get_system_prompt(self, language, topic, mood=None):
-		if mood is None
+		if mood is None:
 			_template = "The following is a friendly conversation between User1 and User2 who are experts in the topic '{}'. User1 and User2 only speak in {}. They never, never use another language than {}. Each user answers precisely and talkative with each other. If any User does not know the answer to a question, it truthfully says it does not know.".format(topic, language, language)
 		elif mood is not None:
 			assert len(mood) == 2
