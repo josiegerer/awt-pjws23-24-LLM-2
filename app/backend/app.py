@@ -5,11 +5,11 @@ import datetime
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 from flask_migrate import Migrate
-
+from llm_service import MessageProcessor
 
 app = Flask(__name__)
 CORS(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://<user>:<password>@localhost/test_llm_app"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:gamefan2714@localhost/test_llm_app"
 app.config["SQLALCHEMY:TRACK_MODIFICATIONS"] = False
 
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
@@ -166,7 +166,8 @@ def delete_user(id):
 
 @app.route("/user_chats/<id>", methods=["GET"])
 def user_chats(id):
-    user = User.query.get(id)
+    # user = User.query.get(id)
+    user = db.session.get(User, id)
     chat = ChatHistory.query.filter_by(user_id=id).all()
     return chat_schemas.jsonify(chat)
 
@@ -198,8 +199,60 @@ def add_chat():
 
     return jsonify({"message": "Chat added successfully"})
 
+@app.route("/add_message/<chat_id>", methods=["POST"])
+def add_message(chat_id):
+    chat = ChatHistory.query.get(chat_id)
 
+    if chat is None:
+        return jsonify({"message": "Chat not found"}), 404
 
+    new_message = request.get_json().get("message")
+
+    if new_message is not None:
+        chat.messages += "\\n" + new_message  # Assuming messages are newline-separated
+        db.session.commit()
+
+        return jsonify({"message": "Message added successfully"})
+    else:
+        return jsonify({"message": "Invalid message"}), 400
+
+@app.route("/process_message/<int:chat_id>", methods=["POST"])
+def process_message(chat_id):
+    try:
+        # Get the message from the request
+        data = request.get_json()
+        user_message = data.get("message")
+        grammar_assistant = data.get("grammar", False)  # Default to False if the parameter is not present
+        informal_assistant = data.get("informal", False)  # Default to False if the parameter is not present
+        
+        if grammar_assistant:
+            # Process message for grammar assistance
+            chat_type = "grammar"
+        else:
+            # Process message for normal conversation
+            chat_type = "conversation"
+        
+        if informal_assistant:
+            # Process message for informal conversation
+            formality = "informal"
+        else:
+            # Process message for normal conversation
+            formality = "formal"            
+
+        # Process the user message using the MessageProcessor class
+        processor = MessageProcessor()
+        processed_message = processor.process_message(user_message, chat_type, formality)
+
+        # Update the chat messages in the database
+        # You need to modify this based on your database model
+        chat = ChatHistory.query.get(chat_id)
+        chat.messages += "\\n" + user_message + "\\n" + processed_message  # Append the processed message
+        db.session.commit()
+
+        return jsonify({"success": True, "message": processed_message})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     # db.create_all()
