@@ -9,11 +9,7 @@ from llm_service import MessageProcessor
 
 app = Flask(__name__)
 CORS(app)
-<<<<<<< HEAD
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:<password>@localhost/test_llm_app"
-=======
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:PW@localhost/new_schema"
->>>>>>> a860db8c6cc8099e15a6f091d0aaa0eeea5d7a71
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:<PW>@localhost/new_schema"
 app.config["SQLALCHEMY:TRACK_MODIFICATIONS"] = False
 
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
@@ -243,13 +239,13 @@ def process_message(chat_id):
             # Process message for normal conversation
             formality = "formal"            
 
-        # Process the user message using the MessageProcessor class
-        processor = MessageProcessor()
-        processed_message = processor.process_message(user_message, chat_type, formality)
-
         # Update the chat messages in the database
         # You need to modify this based on your database model
         chat = ChatHistory.query.get(chat_id)
+
+        # Process the user message using the MessageProcessor class
+        processor = MessageProcessor()
+        processed_message = processor.process_message(user_message, chat_type, formality, chat.messages)
         chat.messages += "\\n" + user_message + "\\n" + processed_message  # Append the processed message
         db.session.commit()
 
