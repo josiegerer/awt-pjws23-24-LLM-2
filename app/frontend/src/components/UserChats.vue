@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="chat-wrapper">
     <div class="sidebar">
       <div>
@@ -38,6 +39,13 @@
       <input v-model="userInput" type="text" placeholder="Type your message..." class="message-input">
       <button @click="sendMessage" class="send-button">Send</button>
     </div>
+=======
+  <div>
+    <h3>Chat Names</h3>
+    <ul>
+      <li v-for="chat in chats" :key="chat.chat_id">{{ chat.chat_name }}</li>
+    </ul>
+>>>>>>> a860db8c6cc8099e15a6f091d0aaa0eeea5d7a71
   </div>
 </template>
 

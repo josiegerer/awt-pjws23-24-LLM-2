@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="chatwindow">
         <div class="language-style-div">
-            <h4> Language Style</h4>
+            <h6> Language Style</h6>
             <div>
                 <button class="language-style-btn" lang-style="Informal">Informal</button>  
             </div>
@@ -14,7 +14,7 @@
         </div>
 
         <div class="language-difficulty-div">
-            <h4> Difficulty Level</h4>
+            <h6> Difficulty Level</h6>
             <div>
                 <button class="language-diff-btn" lang-diff="Beginner">Beginner</button>  
             </div>
@@ -321,7 +321,8 @@ button{
 #send-button{
   width: 80px;
   height: 30px;
-  margin: 0; 
+  margin-left: 10px; 
+  margin-right: 10px;
   cursor: pointer;
   border-radius: 10px;
   transition: background-color 0.3s ease;
@@ -350,7 +351,7 @@ h4 {
 .chat-container {
   width: 60%;
   height: 70vh; /* 70% of the viewport height */
-  margin: 30px auto;
+  margin: 20px auto;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
@@ -413,7 +414,6 @@ h4 {
   padding: 10px;
   border: none;
   font-size: 14px;
-  margin-bottom: 10px; 
   resize: vertical;
   font-family: monospace;
 }
@@ -425,4 +425,5 @@ h4 {
   padding: 10px;
   margin-top: auto;
 }
+
 </style>

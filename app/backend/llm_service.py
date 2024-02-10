@@ -38,7 +38,8 @@ class BaseAgent:
 	def check_break_condition(self, human_message):
 		if human_message == "exit":
 			return 0
-		else: 1
+		else:
+			return 1
 
 	def load_conversation(self, user, chat_id):
 		pass
@@ -125,13 +126,13 @@ class TranslatorAgent(BaseAgent):
 	def __init__(self, language):
 		super().__init__()
 
-		self.language = language
-		self.system_prompt = self.get_system_prompt(language=self.language)
-		
-		self.chain = LLMChain(
-			llm = self.llm,
-			prompt = self.system_prompt
-			)
+			self.language = language
+			self.system_prompt = self.get_system_prompt(language=self.language)
+			
+			self.chain = LLMChain(
+				llm = self.llm,
+				prompt = self.system_prompt
+				)
 
 	def get_system_prompt(self, language):
 		_template = " You are a friendly language teacher for the language {}. You translate that the text from {} to {} precisely. You do not halucinate or interpret the text of the user. The generated text must be in {}".format(dest_language, dest_language, source_language, source_language)
@@ -198,6 +199,8 @@ class EndlessConversation(BaseAgent):
 			memory=ConversationBufferMemory(ai_prefix="User2", human_prefix="User1"),
 			)
 
+	def get_system_prompt(self, language, topic, mood=None):
+		if mood is None:
 	def get_system_prompt(self, language="english", topic="normal things", mood=None):
 		if mood is None:
 			_template = "The following is a friendly conversation between User1 and User2 who are experts in the topic '{}'. User1 and User2 only speak in {}. They never, never use another language than {}. Each user answers precisely and talkative with each other. If any User does not know the answer to a question, it truthfully says it does not know.".format(topic, language, language)

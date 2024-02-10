@@ -9,6 +9,7 @@
     <div class="navbar-nav ms-auto">
       <router-link to="/" exact class="nav-item nav-link active">Home</router-link>
       <router-link class="nav-item nav-link" to="/ChatWindow">Chats</router-link>
+      <a class="nav-item nav-link" href="#">Features</a>
       <a class="nav-item nav-link" href="#">Profile</a>
       <a class="nav-item nav-link nav-logout" href="#">Logout</a>
       <a class="nav-item nav-link" href="#"></a>

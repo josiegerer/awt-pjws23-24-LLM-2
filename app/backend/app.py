@@ -9,7 +9,11 @@ from llm_service import MessageProcessor
 
 app = Flask(__name__)
 CORS(app)
+<<<<<<< HEAD
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:<password>@localhost/test_llm_app"
+=======
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:PW@localhost/new_schema"
+>>>>>>> a860db8c6cc8099e15a6f091d0aaa0eeea5d7a71
 app.config["SQLALCHEMY:TRACK_MODIFICATIONS"] = False
 
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
