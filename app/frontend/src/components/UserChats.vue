@@ -31,7 +31,7 @@
           {{ message }} 
         </div>
       </div>
-    </div>
+    </div> 
 
     <!-- Text input field and button with added styling -->
     <div class="bottom-input">
