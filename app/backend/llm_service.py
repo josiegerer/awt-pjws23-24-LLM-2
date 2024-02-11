@@ -16,7 +16,7 @@ def get_llm():
 		n_ctx = 1024,
 		# callback_manager=callback_manager,
 		verbose=True,  # Verbose is required to pass to the callback manager
-		stop = ["Human", "AI Assistant", "Language Teacher"],
+		stop = ["Human", "AI Assistant", "Language Teacher", "Student"],
 	)
 	print("PLEASE?")
 	return llm
@@ -180,7 +180,7 @@ class GrammarAssistant:
 
 		template = _template + """
 
-		Human: {message}
+		Student: {message}
 		Language Teacher:"""
 
 		system_prompt = PromptTemplate(input_variables=["message"], template=template)
