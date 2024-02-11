@@ -7,9 +7,8 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 def get_llm():
-	print("HI")
 	llm = LlamaCpp(
-		model_path = "./../../../llama_weights/llama-2-7b-chat.Q4_K_M.gguf",
+		model_path = "/Users/josi/Llama2_weights/llama-2-7b-chat.Q4_K_M.gguf",
 		temperature=0.3,
 		max_tokens=512,
 		top_p=1,
@@ -18,7 +17,6 @@ def get_llm():
 		verbose=True,  # Verbose is required to pass to the callback manager
 		stop = ["Human", "AI Assistant", "Language Teacher", "Student"],
 	)
-	print("PLEASE?")
 	return llm
 
 """
@@ -27,15 +25,15 @@ def get_llm():
 
 
 class ConversationAgent:
-	def __init__(self, language, chat_history, topic="everyday life"):
+	def __init__(self, language, chat_history, formality, topic="everyday life"):
 
 		#super().__init__()
 		self.llm_conv = get_llm()
-
 		self.language = language
 		self.topic = topic
+		self.formality = formality
 		self.chat_history = chat_history
-		self.system_prompt = self.get_system_prompt(language=self.language, topic=self.topic)
+		self.system_prompt = self.get_system_prompt()
 		#self.memory = ConversationBufferMemory(memory_key="history",chat_memory=chat_history) ##TO DO
 		#error	"1 validation error for ConversationBufferMemory\nchat_memory\n instance of BaseChatMessageHistory expected (type=type_error.arbitrary_type; expected_arbitrary_type=BaseChatMessageHistory)"
 
@@ -52,8 +50,8 @@ class ConversationAgent:
 		print("Finished Initializing Chain")
 
 
-	def get_system_prompt(self, language, topic):
-		_template = "The following is a friendly conversation between a human and an AI. The AI answers precisely only talks in {}. No word is other than {}. The AI is enthusiastic about the topic '{}'. If the AI does not know the answer to a question, it truthfully says it does not know.".format(language, language, topic)
+	def get_system_prompt(self):
+		_template = "The following is a friendly conversation between a human and an AI. The AI answers precisely only talks in {} and uses {} language only. No word is other than {}. If the AI does not know the answer to a question, it truthfully says it does not know.".format(self.language, self.formality, self.language)
 		_history_template = "\n current conversation:\n {}".format(self.chat_history)
 		template = _template + _history_template + """
 
@@ -125,10 +123,10 @@ class MessageProcessor:
 		#history = {"history": history}
 			
 		if chat_type == "conversation":
-			conversation_agent = ConversationAgent("english", history, "everyday life")
+			conversation_agent = ConversationAgent("english", history, topic = "everyday life", formality = formality)
 			model_answer = conversation_agent.answer(user_message)
 		else:
-			grammar_agent = GrammarAssistant("english")
+			grammar_agent = GrammarAssistant("english", formality = formality)
 			model_answer = grammar_agent.answer(user_message)
 
 		return model_answer
@@ -163,10 +161,11 @@ class TranslatorAgent:
 
 
 class GrammarAssistant:
-	def __init__(self, language="english"):
+	def __init__(self, language, formality):
 		#super().__init__()
 
-		self.language = language
+		self.language = "english"
+		self.formality = formality
 		self.system_prompt = self.get_system_prompt(language=self.language)
 		self.llm = get_llm()
 		
@@ -176,7 +175,9 @@ class GrammarAssistant:
 			)
 
 	def get_system_prompt(self, language="english"):
-		_template = " You are a friendly language teacher for the language {}. You nicely analyse and correct the sentences of the student. You do not halucinate or interpret the text of the user.".format(language)
+		_template = " You are a friendly language teacher for the language {} using {} style only. You nicely correct and analyse the grammar and semantical mistakes of the sentences provided by the student. You do not halucinate or interpret the text of the user.\
+			    If a message does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer, please don't share false information. \
+				If words in the provided message are grammatically correct still analyse the semantic meaning of the sentence and correct it if needed. Think about the correction and analysis step by step.".format(language,self.formality)
 
 		template = _template + """
 
@@ -187,7 +188,8 @@ class GrammarAssistant:
 		return system_prompt
 
 	def answer(self, user_message):
-		response = self.chain.run(input=user_message)
+		message = "analyse and correct the following message: " + user_message
+		response = self.chain.run(message=message)
 		print(response)
 		# self.history.append({"USER": user_message, "ASSISTANT": response})
 		return response
