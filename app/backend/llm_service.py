@@ -5,11 +5,12 @@ from langchain.prompts import PromptTemplate
 from langchain.llms import LlamaCpp
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-
+!pip install llama-cpp-python
 
 def get_llm():
+	print("HI")
 	llm = LlamaCpp(
-		model_path = "/Users/josi/Llama2_weights/llama-2-7b-chat.Q4_K_M.gguf",
+		model_path = "./../../../llama_weights/llama-2-7b-chat.Q4_K_M.gguf",
 		temperature=0.3,
 		max_tokens=512,
 		top_p=1,
@@ -18,6 +19,7 @@ def get_llm():
 		verbose=True,  # Verbose is required to pass to the callback manager
 		stop = ["Human", "AI Assistant"],
 	)
+	print("PLEASE?")
 	return llm
 
 """

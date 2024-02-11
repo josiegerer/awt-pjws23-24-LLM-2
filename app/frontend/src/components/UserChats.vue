@@ -21,14 +21,16 @@
       <input type="checkbox" id="informalCheckbox" v-model="informalAssistant">
       <label for="informalCheckbox">Switch to Informal</label>
       <div v-for="(message, index) in splitMessages(selectedChat.messages)" :key="index" class="message-box" :class="{ 'left': index % 2 === 0, 'right': index % 2 !== 0 }">
-
-        <div v-if="index % 2 === 0">
-          <p class="left">AI</p>
-          {{ message }}
-        </div>
+        <div v-if="loadingMessage">Loading...</div> <!-- Show loading indicator -->
         <div v-else>
-          <p class="right">User</p>
-          {{ message }} 
+          <div v-if="index % 2 === 0">
+            <p class="left">AI</p>
+            {{ message }}
+          </div>
+          <div v-else>
+            <p class="right">User</p>
+            {{ message }} 
+          </div>
         </div>
       </div>
     </div> 
@@ -99,6 +101,9 @@ export default {
         console.log('Sending message:', message);
 
         try {
+          // Set loading state to true
+          this.loadingMessage = true;
+
           // Determine the parameter based on the checkbox state
           const parameterName = this.grammarAssistant ? 'grammar' : 'conversation';
           const chatType = this.informalAssistant ? 'informal' : 'formal';
@@ -106,26 +111,22 @@ export default {
           // Call the backend endpoint to process and update messages
           const response = await axios.post(`http://localhost:5000/process_message/${this.selectedChat.chat_id}`, {
             message: message,
-            [parameterName]: true, // Add the parameter dynamically
-            [chatType]: true, // Add the informal/formal parameter dynamically
+            [parameterName]: true,
+            [chatType]: true,
           });
 
-          // Check for success and update the frontend
+          // Check for success and update the fetched message
           if (response.data.success) {
-            const processedMessage = response.data.message;
-
-            // Fetch the updated list of chats
-            await this.fetchChats();
-
-            // Display the processed message
-            this.selectedChat.messages += "\\n" + message + "\\n" + processedMessage;
+            this.fetchedMessage = response.data.message;
+            this.userInput = ''; // Clear the input field after sending
           } else {
             console.error('Error processing message:', response.data.error);
           }
-
-          this.userInput = ''; // Clear the input field after sending
         } catch (error) {
           console.error('Error sending message:', error);
+        } finally {
+          // Set loading state to false
+          this.loadingMessage = false;
         }
       }
     },
