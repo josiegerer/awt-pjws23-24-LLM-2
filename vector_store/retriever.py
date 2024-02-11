@@ -3,7 +3,6 @@ from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import ConversationalRetrievalChain
-from datetime import datetime
 
 DB_FAISS_PATH = 'vector_store/faiss_store'
 
@@ -39,21 +38,7 @@ def load_llm():
     temperature=0.75,
     max_tokens=2048,
     top_p=1,
-	# callback_manager=callback_manager,
-    verbose=True  # Verbose is required to pass to the callback manager
-
-    
-
-# def get_llm(self, model_id="llama2_7b"):
-# 	self.llm = LlamaCpp(
-# 		#model_path="/Users/josi/Llama2_weights/llama-2-7b.Q4_K_M.gguf?download=true",
-# 		model_path = "/Users/josi/Llama2_weights/llama-2-7b-chat.Q5_K_M.gguf",
-# 		temperature=0.75,
-# 		max_tokens=2048,
-# 		top_p=1,
-# 		# callback_manager=callback_manager,
-# 		verbose=True,  # Verbose is required to pass to the callback manager
-# 	)
+    verbose=True  
 
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L12-v2",
@@ -78,13 +63,3 @@ print(result)
 #     qa_result = qa_bot()
 #     response = qa_result({'query': query})
 #     return response
-
-
-# def chat_history(query, answer):
-#     chat_history_list = []
-#     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#     chat_history_list.append({
-#         "timestamp": timestamp,
-#         "query": query,
-#         "answer": answer})
-#     return chat_history_list
