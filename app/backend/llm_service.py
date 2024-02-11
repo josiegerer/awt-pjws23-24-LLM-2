@@ -73,7 +73,7 @@ class ConversationAgent:
 	def answer(self, user_message):
 		print(self.chat_history)
 		response = self.conversation.predict(input=user_message)
-		#print(response)
+		print(response)
 		#self.history.append({"USER": user_message, "ASSISTANT": response})
 		return response
 
