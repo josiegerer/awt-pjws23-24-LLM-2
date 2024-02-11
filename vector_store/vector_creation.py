@@ -7,7 +7,7 @@ DB_FAISS_PATH = "./vector_store/faiss_store"
 DATA_DIR = "./vector_store/data"
 
 def vector_store_creation():
-    loader = DirectoryLoader(DATA_DIR, glob="*.txt", loader_cls=TextLoader) # add pdf file and change line
+    loader = DirectoryLoader(DATA_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
     documents = loader.load()
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200) 
