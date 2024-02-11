@@ -5,7 +5,6 @@ from langchain.prompts import PromptTemplate
 from langchain.llms import LlamaCpp
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-!pip install llama-cpp-python
 
 def get_llm():
 	print("HI")
@@ -17,7 +16,7 @@ def get_llm():
 		n_ctx = 1024,
 		# callback_manager=callback_manager,
 		verbose=True,  # Verbose is required to pass to the callback manager
-		stop = ["Human", "AI Assistant"],
+		stop = ["Human", "AI Assistant", "Language Teacher"],
 	)
 	print("PLEASE?")
 	return llm
@@ -164,11 +163,12 @@ class TranslatorAgent:
 
 
 class GrammarAssistant:
-	def __init__(self, language):
+	def __init__(self, language="english"):
 		#super().__init__()
 
 		self.language = language
 		self.system_prompt = self.get_system_prompt(language=self.language)
+		self.llm = get_llm()
 		
 		self.chain = LLMChain(
 			llm = self.llm,
@@ -176,7 +176,7 @@ class GrammarAssistant:
 			)
 
 	def get_system_prompt(self, language="english"):
-		_template = " You are a friendly language teacher for the language {}. You translate that the text from {} to {} precisely. You do not halucinate or interpret the text of the user. The generated text must be in {}".format(dest_language, dest_language, source_language, source_language)
+		_template = " You are a friendly language teacher for the language {}. You nicely analyse and correct the sentences of the student. You do not halucinate or interpret the text of the user.".format(language)
 
 		template = _template + """
 
@@ -189,7 +189,7 @@ class GrammarAssistant:
 	def answer(self, user_message):
 		response = self.chain.run(input=user_message)
 		print(response)
-		self.history.append({"USER": user_message, "ASSISTANT": response})
+		# self.history.append({"USER": user_message, "ASSISTANT": response})
 		return response
 
 
