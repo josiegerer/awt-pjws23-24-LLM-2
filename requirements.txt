@@ -1,4 +1,5 @@
 langchain 
 sentence-transformers 
+#unstructured
 faiss-cpu
 pypdf
