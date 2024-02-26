@@ -35,8 +35,10 @@
 
     <!-- Text input field and button with added styling -->
     <div class="bottom-input">
-      <input v-model="userInput" type="text" placeholder="Type your message..." class="message-input">
+      <input v-model="userInput" type="text" :placeholder="conversationEnded ? 'Conversation is ended' : 'Type your message...'" class="message-input" :style="disableInputField()">
       <button @click="sendMessage" class="send-button">Send</button>
+      <button @click="endAndAnalyze" class="analyze-button">End & Analyze</button>
+      <button @click="startSelfConversation" class="self-conversation-button">Self-Conversation</button>
     </div>
   </div>
 </template>
@@ -51,6 +53,8 @@ export default {
       chats: [],
       selectedChat: null,
       userInput: '',
+      conversationEnded: false, 
+      selfConversationResult: '',
     };
   },
   created() {
@@ -103,6 +107,9 @@ export default {
           const parameterName = this.grammarAssistant ? 'grammar' : 'conversation';
           const chatType = this.informalAssistant ? 'informal' : 'formal';
 
+          // Display the user's input immediately
+          this.selectedChat.messages += "\\n" + message;
+          this.userInput = ''
           // Call the backend endpoint to process and update messages
           const response = await axios.post(`http://localhost:5000/process_message/${this.selectedChat.chat_id}`, {
             message: message,
@@ -118,17 +125,106 @@ export default {
             await this.fetchChats();
 
             // Display the processed message
-            this.selectedChat.messages += "\\n" + message + "\\n" + processedMessage;
+            this.selectedChat.messages += "\\n" + processedMessage;
           } else {
             console.error('Error processing message:', response.data.error);
           }
 
-          this.userInput = ''; // Clear the input field after sending
+          // this.userInput = ''; // Clear the input field after sending
         } catch (error) {
           console.error('Error sending message:', error);
         }
       }
     },
+    async endAndAnalyze() {
+      try {
+        const analysisMessage = "Your current conversation gets analyzed and evaluated";
+        const parameterName = this.grammarAssistant ? 'grammar' : 'conversation';
+        const chatType = this.informalAssistant ? 'informal' : 'formal';
+        
+        // Call the backend endpoint to process and update messages
+        const response = await axios.post(`http://localhost:5000/analyze_conversation/${this.selectedChat.chat_id}`, {
+          [parameterName]: true, // Add the parameter dynamically
+          [chatType]: true, // Add the informal/formal parameter dynamically
+        });
+        
+        // Update the frontend
+        if (response.data.success) {
+            const processedMessage = response.data.message;
+
+            // Fetch the updated list of chats
+            await this.fetchChats();
+
+            // Display the processed message
+            this.selectedChat.messages += "\\n" + analysisMessage + "\\n" + processedMessage;
+            this.conversationEnded = true;
+        } else {
+          console.error('Error processing message:', response.data.error);
+        }
+
+        // You can also send this message to the backend if needed
+        // Example: await axios.post(`http://localhost:5000/process_analysis/${this.selectedChat.chat_id}`, { message: analysisMessage });
+        this.userInput = ''; // Clear the input field after sending
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
+    },
+    
+    async startSelfConversation() {
+      try {
+        const chatType = this.informalAssistant ? 'informal' : 'formal';
+        const topic = prompt('Which topic?');
+        if (topic !== null && topic !== '') {
+          // Handle the self-conversation topic here
+          console.log('Self-conversation topic:', topic);
+          const message = `Let us have a conversation about the topic ${topic}`
+          this.selectedChat.messages += "\\n" + message;
+          // Initial request to start self-conversation
+          const initialResponse = await axios.post(`http://localhost:5000/self_conversation/${this.selectedChat.chat_id}`, {
+            message: message,
+            topic: topic,
+            [chatType]: true,
+          });
+
+          if (initialResponse.data.success) {
+            this.conversationEnded = true;
+            this.selfConversationResult = initialResponse.data.message;
+            this.selectedChat.messages += "\\n" + this.selfConversationResult;
+
+            // Display the initial response
+            console.log('Initial self-conversation result:', this.selfConversationResult);
+
+            // Looping requests until a condition is met (e.g., until a specific message is received)
+            while (true) {
+              const loopResponse = await axios.post(`http://localhost:5000/self_conversation/${this.selectedChat.chat_id}`, {
+                message: this.selfConversationResult,
+                topic: topic,
+                [chatType]: true,
+              });
+
+              if (loopResponse.data.success) {
+                this.selfConversationResult = loopResponse.data.message;
+                this.selectedChat.messages += "\\n" + this.selfConversationResult;
+
+                // Update the UI with the latest response
+                console.log('Self-conversation result:', this.selfConversationResult);
+              } else {
+                console.error('Error in self-conversation loop:', loopResponse.data.error);
+                break; // Break the loop in case of an error
+              }
+            }
+
+            // Display the final result or perform any other actions
+            console.log('Final self-conversation result:', this.selfConversationResult);
+          } else {
+            console.error('Error starting self-conversation:', initialResponse.data.error);
+          }
+        }
+      } catch (error) {
+        console.error('Error starting self-conversation:', error);
+      }
+    },
+
 
     async updateChatMessages(chatId, newMessage) {
       try {
@@ -140,6 +236,16 @@ export default {
         console.error('Error updating chat messages:', error);
       }
     },
+    disableInputField() {
+      if (this.conversationEnded) {
+        return {
+          'pointer-events': 'none',
+          'background-color': '#ddd',
+        };
+      }
+      return {};
+    },
+
   },
 };
 </script>
@@ -171,6 +277,24 @@ body {
   color: #fff;
   border: none;
   cursor: pointer;
+}
+
+.analyze-button{
+  padding: 8px 16px;
+  background-color: #0548ae;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.self-conversation-button{
+  padding: 8px 16px;
+  background-color: #cd2020;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;  
 }
 
 .chat-box {

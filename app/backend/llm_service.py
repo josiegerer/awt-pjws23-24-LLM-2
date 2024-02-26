@@ -8,14 +8,14 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 def get_llm():
 	llm = LlamaCpp(
-		model_path = "/Users/josi/Llama2_weights/llama-2-7b-chat.Q4_K_M.gguf",
+		model_path = "./../../../llama_weights/llama-2-7b-chat.Q4_K_M.gguf",
 		temperature=0.3,
 		max_tokens=512,
 		top_p=1,
 		n_ctx = 1024,
 		# callback_manager=callback_manager,
 		verbose=True,  # Verbose is required to pass to the callback manager
-		stop = ["Human", "AI Assistant", "Language Teacher", "Student"],
+		stop = ["Human", "AI Assistant", "Language Teacher", "Student", "Partner", "AI", "English Teacher", "Expert Partner", "Curious Partner"],
 	)
 	return llm
 
@@ -51,22 +51,17 @@ class ConversationAgent:
 
 
 	def get_system_prompt(self):
-		_template = "The following is a friendly conversation between a human and an AI. The AI answers precisely only talks in {} and uses {} language only. No word is other than {}. If the AI does not know the answer to a question, it truthfully says it does not know.".format(self.language, self.formality, self.language)
+		_template = "The following is a friendly conversation between a human and a language Partner. The AI answers precisely only talks in {} and uses {} language only. No word is other than {}. If the AI does not know the answer to a question, it truthfully says it does not know.".format(self.language, self.formality, self.language)
 		_history_template = "\n current conversation:\n {}".format(self.chat_history)
 		template = _template + _history_template + """
 
 		{history} 
 		Human: {input}
-		AI Assistant:"""
+		Partner:"""
 
 		system_prompt = PromptTemplate(input_variables=["history", "input"], template=template)
 		return system_prompt
 
-	"""
-		Probably not needed to pre/post-process the message
-	"""
-	def process_message(self):
-		pass
 
 	def answer(self, user_message):
 		print(self.chat_history)
@@ -131,33 +126,151 @@ class MessageProcessor:
 
 		return model_answer
 
-class TranslatorAgent:
-	def __init__(self, language):
-		#super().__init__()
+class EvalProcessor:
+	def __init__(self):
+		print("time to eval")
 
-		self.language = language
-		self.system_prompt = self.get_system_prompt(language=self.language)
-			
+	def eval_conversation(self, chat_type, formality, chat_history):
+		result_list = chat_history.split("\\n")
+		full_history = format_dialogue(result_list)
+
+		evaluator = EvaluationAgent(formality, chat_type)
+		model_answer = evaluator.evaluate(full_history)
+		return model_answer
+
+class EvaluationAgent:
+	def __init__(self, formality, chat_type):
+		self.formality = formality
+		self.chat_type = chat_type
+
+		if chat_type == "conversation":
+			self.system_prompt = self.get_system_prompt_conv(formality=self.formality)
+			print("#"*50)
+		elif chat_type == "grammar":
+			self.system_prompt = self.get_system_prompt_grammar(formality=self.formality)
+		else:
+			raise ValueError("CHAT TYPE NOT KNOWN")
+		print(self.system_prompt)
+		self.llm = get_llm()
+
 		self.chain = LLMChain(
 			llm = self.llm,
 			prompt = self.system_prompt
 			)
 
-	def get_system_prompt(self, language):
-		_template = " You are a friendly language teacher for the language {}. You translate that the text from {} to {} precisely. You do not halucinate or interpret the text of the user. The generated text must be in {}".format(dest_language, dest_language, source_language, source_language)
+	def get_system_prompt_conv(self, formality):
+		_template = """ You are a friendly english language teacher. Given a conversation history between a student and its teacher you evaluate the language of the student. 
+		You give the student a grade between 0 and 10. 10 is the best grade and 0 ist the worst grade. You explain the student the decision of your grade, and you also give him
+		examples why you choose that grade. Explain using examples from the student. The student should have use {} language"
+		""".format(formality)
 
 		template = _template + """
 
-		Human: {message}
-		Language Teacher:"""
+		Conversation History: 
+		{history}
 
-		system_prompt = PromptTemplate(input_variables=["message"], template=template)
+		English Teacher:"""
+
+		system_prompt = PromptTemplate(input_variables=["history"], template=template)
+		return system_prompt
+
+	def get_system_prompt_grammar(self, formality):
+		_template = """ You are a friendly english grammar and comprehension teacher. 
+		Given english sentences from the student you only analyze and evaluate the english grammar and the semantic of the sentences. 
+		You give the student a grade between 0 and 10. 10 is the best grade and 0 ist the worst grade. You explain the student the decision of your grade, and you also give him
+		examples why you choose that grade. Explain using examples from the student. The student should have use {} language"
+		""".format(formality)
+
+		template = _template + """
+
+		Conversation History: 
+		{history}
+
+		English Teacher:"""
+
+		system_prompt = PromptTemplate(input_variables=["history"], template=template)
+		return system_prompt
+
+	def evaluate(self, full_history):
+		response = self.chain.run(history=full_history)
+		print(response)
+		return response
+
+class EndlessProcessor:
+	def __init__(self, topic):
+		self.topic = topic
+
+	def process_message(self, formality, chat_history, user_message):
+		result_list = chat_history.split("\\n")
+		turn_indice = len(result_list) % 2
+		full_history = format_dialogue(result_list)
+
+		endless = EndlessConversation(formality, full_history, turn_indice, self.topic)
+		model_answer = endless.answer(user_message)
+		return model_answer
+
+class EndlessConversation:
+	def __init__(self, formality, chat_history, turn_indice, topic):
+		self.formality = formality
+		self.chat_history = chat_history
+		self.turn_indice = turn_indice
+		self.topic = topic
+		
+		if self.turn_indice == 1:
+			self.system_prompt = self.get_system_prompt_1(formality=self.formality, topic=self.topic)
+		elif self.turn_indice == 0:
+			self.system_prompt = self.get_system_prompt_0(formality=self.formality, topic=self.topic)
+
+		self.llm_conv = get_llm()
+		self.conversation = ConversationChain(
+			prompt=self.system_prompt,
+			llm=self.llm_conv, 
+			verbose=True, 
+		)
+
+	def get_system_prompt_1(self, formality, topic):
+		_history_template = "\n Current Conversation:\n {}".format(self.chat_history)
+		_template = """
+		You are a friendly conversation partner. You are very knowledgable about the topic {}.
+		You respond to your other conversation partner in a friendly and open-minded manner.
+		You only make use of {} language.
+		You do not hallucinate and if you do not know something, you do not say something factly false.
+		""".format(topic, formality)
+
+		template = _template + _history_template + """
+		{history}
+
+		Curious Partner: {input}
+		Expert Partner: """
+
+		system_prompt = PromptTemplate(input_variables=["history", "input"], template=template)
+
+		return system_prompt
+
+	def get_system_prompt_0(self, formality, topic):
+		_history_template = "\n Current Conversation:\n {}".format(self.chat_history)
+		_template = """
+		You are a friendly conversation partner. You are very curious about the topic {}.
+		You respond to your other conversation partner in a friendly and open-minded manner.
+		You only make use of {} language.
+		You do not hallucinate and if you do not know something, you do not say something factly false.
+		""".format(topic, formality)
+
+		template = _template + _history_template + """
+		{history}
+
+		Expert Partner: {input}
+		Curious Partner: """
+
+		system_prompt = PromptTemplate(input_variables=["history", "input"], template=template)
+
 		return system_prompt
 
 	def answer(self, user_message):
-		response = self.chain.run(input=user_message)
-		print(response)
-		self.history.append({"USER": user_message, "ASSISTANT": response})
+		response = self.conversation.predict(input=user_message)
+		return response
+
+
 
 
 class GrammarAssistant:
@@ -194,45 +307,3 @@ class GrammarAssistant:
 		# self.history.append({"USER": user_message, "ASSISTANT": response})
 		return response
 
-
-class EndlessConversation:
-	def __init__(self, language, topic, conv_length):
-		#super().__init__()
-
-		self.language = language
-		self.topic = topic
-		self.conv_length = conv_length
-
-		self.agent_1_system_prompt = self.get_system_prompt(language=self.language, topic=self.topic, agent="first")
-		self.agent_2_system_prompt = self.get_system_prompt(language=self.language, topic=self.topic, agent="second")
-
-		self.conversation = ConversationChain(
-			prompt=self.system_prompt,
-			llm=self.llm_conv, 
-			verbose=True, 
-			memory=ConversationBufferMemory(ai_prefix="User2", human_prefix="User1"),
-			)
-
-	def get_system_prompt(self, language="english", topic="normal things", mood=None):
-		if mood is None:
-			_template = "The following is a friendly conversation between User1 and User2 who are experts in the topic '{}'. User1 and User2 only speak in {}. They never, never use another language than {}. Each user answers precisely and talkative with each other. If any User does not know the answer to a question, it truthfully says it does not know.".format(topic, language, language)
-		elif mood is not None:
-			assert len(mood) == 2
-			_template = "The following is a friendly conversation between User1 and User2 who are experts in the topic '{}'. User1 and User2 only speak in {}. They never, never use another language than {}. User1 tends to be {}, whereas User1 is {}. If any User does not know the answer to a question, it truthfully says it does not know.".format(topic, language, language, mood[0], mood[1])
-		else:
-			raise("The length of Mood is not equal to 2.")
-
-
-		template = _template + """
-
-		Current conversation:
-		{history}
-		User1: {input}
-		User2:"""
-
-		system_prompt = PromptTemplate(input_variables=["history", "input"], template=template)
-		return system_prompt
-
-	# def endless_conversatio(self):
-	# 	for i in range(self.conv_length):
-	# 		response

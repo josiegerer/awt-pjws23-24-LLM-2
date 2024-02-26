@@ -5,11 +5,11 @@ import datetime
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 from flask_migrate import Migrate
-from llm_service import MessageProcessor
+from llm_service import MessageProcessor, EvalProcessor, EndlessProcessor
 
 app = Flask(__name__)
 CORS(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:PW@localhost/test_llm_app"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:<PW>@localhost/test_llm_app"
 app.config["SQLALCHEMY:TRACK_MODIFICATIONS"] = False
 
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
@@ -224,7 +224,9 @@ def process_message(chat_id):
         user_message = data.get("message")
         grammar_assistant = data.get("grammar", False)  # Default to False if the parameter is not present
         informal_assistant = data.get("informal", False)  # Default to False if the parameter is not present
-        
+        print(data)
+        print(user_message)
+        print(grammar_assistant)
         if grammar_assistant:
             # Process message for grammar assistance
             chat_type = "grammar"
@@ -247,6 +249,73 @@ def process_message(chat_id):
         processor = MessageProcessor()
         processed_message = processor.process_message(user_message, chat_type, formality, chat.messages)
         chat.messages += "\\n" + user_message + "\\n" + processed_message  # Append the processed message
+        db.session.commit()
+
+        return jsonify({"success": True, "message": processed_message})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/analyze_conversation/<int:chat_id>", methods=["POST"])
+def analyze_conversation(chat_id):
+    try:
+        # Get the message from the request
+        data = request.get_json()
+        grammar_assistant = data.get("grammar", False)  # Default to False if the parameter is not present
+        informal_assistant = data.get("informal", False)  # Default to False if the parameter is not present
+        if grammar_assistant:
+            # Process message for grammar assistance
+            chat_type = "grammar"
+        else:
+            # Process message for normal conversation
+            chat_type = "conversation"
+        
+        if informal_assistant:
+            # Process message for informal conversation
+            formality = "informal"
+        else:
+            # Process message for normal conversation
+            formality = "formal"            
+
+        chat = ChatHistory.query.get(chat_id)
+
+        processor = EvalProcessor()
+        processed_message = processor.eval_conversation(chat_type, formality, chat.messages)
+        print("#"*50)
+        print(processed_message)
+        chat.messages += "\\n" + "Your current conversation gets analyzed and evaluated" + "\\n" + processed_message  # Append the processed message
+        db.session.commit()
+
+        return jsonify({"success": True, "message": processed_message})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/self_conversation/<int:chat_id>", methods=["POST"])
+def self_conversation(chat_id):
+    try:
+        data = request.get_json()
+        print(data)
+        user_message = data.get("message")
+        topic = data.get("topic")
+        print(topic)
+        print(user_message)
+        informal_assistant = data.get("informal", False)        
+        print(informal_assistant)
+        if informal_assistant:
+            formality = "informal"
+        else:
+            formality = "formal"
+
+        chat = ChatHistory.query.get(chat_id)
+
+        processor = EndlessProcessor(topic=topic)
+        processed_message = processor.process_message(formality, chat.messages, user_message)        
+
+        print("#"*50)
+        print(processed_message)
+        chat.messages += "\\n" + processed_message  # Append the processed message
         db.session.commit()
 
         return jsonify({"success": True, "message": processed_message})
