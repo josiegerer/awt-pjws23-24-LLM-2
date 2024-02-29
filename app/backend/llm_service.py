@@ -7,8 +7,9 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
+from constants import DB_FAISS_PATH, MODEL_PATH
 
-DB_FAISS_PATH = './../../vector_store/faiss_store'
+DB_FAISS_PATH = DB_FAISS_PATH
 
 def qa_prompt(formality):
 	_template = "Retrieve words and information for the following text using {} language:".format(formality)
@@ -43,7 +44,7 @@ def qa_bot(qa_prompt):
 
 def get_llm():
 	llm = LlamaCpp(
-		model_path = "./../../../llama_weights/llama-2-7b-chat.Q4_K_M.gguf",
+		model_path = MODEL_PATH
 		temperature=0.3,
 		max_tokens=1024,
 		top_p=1,
