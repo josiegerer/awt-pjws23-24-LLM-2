@@ -1,16 +1,51 @@
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
-from langchain.chains import LLMChain
+from langchain.chains import LLMChain, RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain.llms import LlamaCpp
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.vectorstores import FAISS
+
+DB_FAISS_PATH = './../../vector_store/faiss_store'
+
+def qa_prompt(formality):
+	_template = "Retrieve words and information for the following text using {} language:".format(formality)
+	prompt_template = """
+	{context}
+	"""
+	prompt = PromptTemplate(template=prompt_template,
+                            input_variables=['context'])
+	
+	print(prompt)
+	return prompt
+
+def retrieval_qa(llm, prompt, vector_store):
+	print(prompt)
+	qa_chain = RetrievalQA.from_chain_type(llm=llm,
+										#    chain_type='stuff',
+										   retriever=vector_store.as_retriever(search_kwargs={'k': 3}),
+										#    return_source_documents=True,
+										   chain_type_kwargs={'prompt': prompt})
+	print(qa_chain)
+	return qa_chain
+
+
+def qa_bot(qa_prompt):
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L12-v2",
+                                       model_kwargs={'device': 'cpu'})
+    vector_store = FAISS.load_local(DB_FAISS_PATH, embeddings)
+    llm = get_llm() 
+    qa = retrieval_qa(llm, qa_prompt, vector_store)
+
+    return qa
 
 def get_llm():
 	llm = LlamaCpp(
 		model_path = "./../../../llama_weights/llama-2-7b-chat.Q4_K_M.gguf",
 		temperature=0.3,
-		max_tokens=512,
+		max_tokens=1024,
 		top_p=1,
 		n_ctx = 1024,
 		# callback_manager=callback_manager,
@@ -33,11 +68,43 @@ class ConversationAgent:
 		self.topic = topic
 		self.formality = formality
 		self.chat_history = chat_history
-		self.system_prompt = self.get_system_prompt()
+		# self.system_prompt = self.get_system_prompt()
 		#self.memory = ConversationBufferMemory(memory_key="history",chat_memory=chat_history) ##TO DO
 		#error	"1 validation error for ConversationBufferMemory\nchat_memory\n instance of BaseChatMessageHistory expected (type=type_error.arbitrary_type; expected_arbitrary_type=BaseChatMessageHistory)"
 
 		# self.history.append({"system": self.system_prompt})
+
+
+	def get_system_prompt(self):
+		_template = "The following is a friendly conversation between a human and a language Partner. The AI answers precisely only talks in {} and uses {} language only. No word is other than {}. If the AI does not know the answer to a question, it truthfully says it does not know. Make use of the following words and wordings in your answer.".format(self.language, self.formality, self.language)
+		_history_template = "\n Current Conversation:\n {}".format(self.chat_history)
+		print(self.qa_prompt)
+		template = _template + self.qa_prompt["result"] + _history_template + """
+
+		{history} 
+		Human: {input}
+		Partner:"""
+
+		self.system_prompt = PromptTemplate(input_variables=["history", "input"], template=template)
+		print(self.system_prompt)
+		# return system_prompt
+
+	def get_qa_prompt(self, user_message):
+		qa_prompt_template = qa_prompt(self.formality)
+		print("FINAL HI")
+		print(user_message)
+		qa_bot_instance = qa_bot(qa_prompt_template)
+		print(qa_bot_instance)
+		# query = "Retrieve {} words and information for the following text:\n{}\n".format(self.formality, user_message)
+		self.qa_prompt = qa_bot_instance({"query": user_message})
+
+	def answer(self, user_message):
+		print(self.chat_history)
+		# GET QA ANSWER 
+		# GET SYSTEM PROMPT AND APPLY QA RESULT
+		# INIT CHAIN
+		# PREDICT
+
 		print("Initialize Conversation Chain...")
 		self.conversation = ConversationChain(
 			prompt=self.system_prompt,
@@ -49,45 +116,10 @@ class ConversationAgent:
 			)
 		print("Finished Initializing Chain")
 
-
-	def get_system_prompt(self):
-		_template = "The following is a friendly conversation between a human and a language Partner. The AI answers precisely only talks in {} and uses {} language only. No word is other than {}. If the AI does not know the answer to a question, it truthfully says it does not know.".format(self.language, self.formality, self.language)
-		_history_template = "\n current conversation:\n {}".format(self.chat_history)
-		template = _template + _history_template + """
-
-		{history} 
-		Human: {input}
-		Partner:"""
-
-		system_prompt = PromptTemplate(input_variables=["history", "input"], template=template)
-		return system_prompt
-
-
-	def answer(self, user_message):
-		print(self.chat_history)
 		response = self.conversation.predict(input=user_message)
 		print(response)
 		#self.history.append({"USER": user_message, "ASSISTANT": response})
 		return response
-
-
-
-	def retriever(self):
-		pass
-
-
-	# def talk(self): 
-	# 	history = {}
-
-	# 	while smth:
-	# 		human = input("bla")
-	# 		response = answer(self.llm)
-	# 		history += {"human": human, "assistant": response}
-
-	# 		smth = self.check_break_condition()
-
-	# 	return history
-
 
 def format_dialogue(dialogue_list):
 	formatted_dialogue = ""
@@ -118,10 +150,17 @@ class MessageProcessor:
 		#history = {"history": history}
 			
 		if chat_type == "conversation":
+			print("DOING INIT")
 			conversation_agent = ConversationAgent("english", history, topic = "everyday life", formality = formality)
+			conversation_agent.get_qa_prompt(user_message)
+			print("CREATED QA PROMPT")
+			conversation_agent.get_system_prompt()
+			print("CREATED System prompt")
 			model_answer = conversation_agent.answer(user_message)
 		else:
 			grammar_agent = GrammarAssistant("english", formality = formality)
+			grammar_agent.get_qa_prompt(user_message)
+			grammar_agent.get_system_prompt()
 			model_answer = grammar_agent.answer(user_message)
 
 		return model_answer
@@ -231,11 +270,11 @@ class EndlessConversation:
 	def get_system_prompt_1(self, formality, topic):
 		_history_template = "\n Current Conversation:\n {}".format(self.chat_history)
 		_template = """
-		You are a friendly conversation partner. You are very knowledgable about the topic {}.
-		You respond to your other conversation partner in a friendly and open-minded manner.
-		You only make use of {} language.
-		You do not hallucinate and if you do not know something, you do not say something factly false.
+		You are a conversation partner that is very knowledgable about the topic {}.
+		You respond to your other conversation partner in a precise and simple manner without any exaggerations and only make use of {} language.
+		You do not hallucinate and if you do not know the answer to something you truthfully say so.
 		""".format(topic, formality)
+
 
 		template = _template + _history_template + """
 		{history}
@@ -250,11 +289,11 @@ class EndlessConversation:
 	def get_system_prompt_0(self, formality, topic):
 		_history_template = "\n Current Conversation:\n {}".format(self.chat_history)
 		_template = """
-		You are a friendly conversation partner. You are very curious about the topic {}.
-		You respond to your other conversation partner in a friendly and open-minded manner.
-		You only make use of {} language.
-		You do not hallucinate and if you do not know something, you do not say something factly false.
+		You are a conversation partner that is very knowledgable about the topic {}.
+		You respond to your other conversation partner in a precise and simple manner without any exaggerations and only make use of {} language.
+		You do not hallucinate and if you do not know the answer to something you truthfully say so.
 		""".format(topic, formality)
+
 
 		template = _template + _history_template + """
 		{history}
@@ -270,37 +309,43 @@ class EndlessConversation:
 		response = self.conversation.predict(input=user_message)
 		return response
 
-
-
-
 class GrammarAssistant:
 	def __init__(self, language, formality):
 		#super().__init__()
 
 		self.language = "english"
 		self.formality = formality
-		self.system_prompt = self.get_system_prompt(language=self.language)
+		# self.system_prompt = self.get_system_prompt(language=self.language)
 		self.llm = get_llm()
 		
-		self.chain = LLMChain(
-			llm = self.llm,
-			prompt = self.system_prompt
-			)
+	
+	def get_qa_prompt(self, user_message):
+		qa_prompt_template = qa_prompt(self.formality)
+		print("FINAL HI")
+		print(user_message)
+		qa_bot_instance = qa_bot(qa_prompt_template)
+		print(qa_bot_instance)
+		# query = "Retrieve {} words and information for the following text:\n{}\n".format(self.formality, user_message)
+		self.qa_prompt = qa_bot_instance({"query": user_message})
 
-	def get_system_prompt(self, language="english"):
+	def get_system_prompt(self):
 		_template = " You are a friendly language teacher for the language {} using {} style only. You nicely correct and analyse the grammar and semantical mistakes of the sentences provided by the student. You do not halucinate or interpret the text of the user.\
 			    If a message does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer, please don't share false information. \
-				If words in the provided message are grammatically correct still analyse the semantic meaning of the sentence and correct it if needed. Think about the correction and analysis step by step.".format(language,self.formality)
+				If words in the provided message are grammatically correct still analyse the semantic meaning of the sentence and correct it if needed. Think about the correction and analysis step by step.".format(self.language, self.formality)
 
-		template = _template + """
+		template = _template + self.qa_prompt["result"] + """
 
 		Student: {message}
 		Language Teacher:"""
 
-		system_prompt = PromptTemplate(input_variables=["message"], template=template)
-		return system_prompt
+		self.system_prompt = PromptTemplate(input_variables=["message"], template=template)
 
 	def answer(self, user_message):
+		self.chain = LLMChain(
+			llm = self.llm,
+			prompt = self.system_prompt
+			)
+		print(self.system_prompt)
 		message = "analyse and correct the following message: " + user_message
 		response = self.chain.run(message=message)
 		print(response)
