@@ -44,11 +44,11 @@ def qa_bot(qa_prompt):
 
 def get_llm():
 	llm = LlamaCpp(
-		model_path = MODEL_PATH
+		model_path=MODEL_PATH,
 		temperature=0.3,
 		max_tokens=MAX_TOKEN,
 		top_p=1,
-		n_ctx = 1024,
+		n_ctx=1024,
 		# callback_manager=callback_manager,
 		verbose=True,  # Verbose is required to pass to the callback manager
 		stop = ["Human", "AI Assistant", "Language Teacher", "Student", "Partner", "AI", "English Teacher", "Expert Partner", "Curious Partner"],
