@@ -44,7 +44,7 @@ def qa_bot(qa_prompt):
 
 def get_llm():
 	llm = LlamaCpp(
-		model_path = MODEL_PATH
+		model_path = MODEL_PATH,
 		temperature=0.3,
 		max_tokens=MAX_TOKEN,
 		top_p=1,
