@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>TestMaximizer</title>
+    <link rel="stylesheet" href="https://testmaximizer.com/assets/frontend/css/app.css" media="all">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="og:title" content="">
+    <meta name="og:description" content="">
+    <meta name="og:type" content="website">
+    <meta name="og:site_name" content="TestMaximizer">
+    <meta name="og:url" content="https://testmaximizer.com/formal-and-informal">
+    <meta name="og:image" content="">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://testmaximizer.com/assets/frontend/img/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="https://testmaximizer.com/assets/frontend/img/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://testmaximizer.com/assets/frontend/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://testmaximizer.com/assets/frontend/img/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://testmaximizer.com/assets/frontend/img/android-chrome-192x192.png" sizes="192x192">
+    <meta name="msapplication-square70x70logo" content="https://testmaximizer.com/assets/frontend/img/smalltile.png">
+    <meta name="msapplication-square150x150logo" content="https://testmaximizer.com/assets/frontend/img/mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="https://testmaximizer.com/assets/frontend/img/widetile.png">
+    <meta name="msapplication-square310x310logo" content="https://testmaximizer.com/assets/frontend/img/largetile.png">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TL68C7P');</script>
+    <!-- End Google Tag Manager -->
+
+    <script src="https://www.google.com/recaptcha/api.js?" async defer></script>
+
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TL68C7P"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="site-header">
+        <div class="site-header__highbar highbar">
+            <div class="wrapper">
+                <a href="https://testmaximizer.com" class="highbar__logo">
+                    <span>TestMaximizer</span>
+                </a>
+
+                <div class="highbar__controls controls">
+                                                    <a href="https://testmaximizer.com/test" class="btn btn--secondary btn--bold btn--uppercase">Try it Free</a>
+                            <a href="https://testmaximizer.com/subscribe" class="btn btn--secondary--empty btn--bold btn--uppercase">Subscribe</a>
+                        
+                                                    <a href="#login-popup" class="btn btn--gray btn--icon">
+                              <img src="https://testmaximizer.com/assets/frontend/img/user-sm.png" alt="user"> <span>Log in</span></a>
+                                        </div>
+            </div>
+        </div>
+            <div class="site-header__lowbar lowbar">
+                <div class="wrapper">
+                    <nav class="lowbar__navigation navigation">
+                        <span class="navigation__toggler"><i class="fa fa-bars" aria-hidden="true"></i> Navigation</span>
+
+                        <ul class="navigation__list" data-menu="">
+                                                                                                                                        <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>EXAM TIPS</p></span>
+                                            <span class="submenu__toggler">EXAM TIPS</span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="general-exam-tips">General exam tips</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="exam-tips-for-toefl-ibt">Exam Tips for TOEFL iBT</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="exam-tips-for-ielts">Exam tips for IELTS</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="exam-tips-cambridge-first">Exam tips for Cambridge FIRST and ADVANCED</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="common-mistakes-at-b2-level-exams">Common mistakes at B2 level exams</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="common-mistakes-at-c1-level-exams">Common mistakes at C1 level exams</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>SPEAKING </p></span>
+                                            <span class="submenu__toggler">SPEAKING </span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="functions">Functions </a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="co">Conversation strategies</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="picture">Picture description</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="descri">Describing someone</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="giving-opinions">Giving opinions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="making-suggestions">Making suggestions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="agree">Agreeing and disagreeing</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="collocations">Key words for fluency</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="cambridge-first-speaking">Cambridge First: SPEAKING </a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="cambridge-advanced-speaking">Cambridge Advanced: SPEAKING</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="ielts-speaking">IELTS: SPEAKING</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>WRITING </p></span>
+                                            <span class="submenu__toggler">WRITING </span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="organizing-text">Structuring writing</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="vivid-language">Using vivid language</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="informal-letters">Informal letters and emails</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <span class="item__sub-sub-title">Formal letters</span>
+                                                            <ul class="item__sub-sub-list">
+                                                                                                                                    <li class="item__sub-sub-item">
+                                                                        <a class="item__link" href="letter-of-inquiry">Letter of Inquiry</a>
+                                                                    </li>
+                                                                                                                                    <li class="item__sub-sub-item">
+                                                                        <a class="item__link" href="applications">Applications, cover letters</a>
+                                                                    </li>
+                                                                                                                                    <li class="item__sub-sub-item">
+                                                                        <a class="item__link" href="letter-of-apology">Letter of Apology</a>
+                                                                    </li>
+                                                                                                                                    <li class="item__sub-sub-item">
+                                                                        <a class="item__link" href="letter-of-complaint">Letter of Complaint</a>
+                                                                    </li>
+                                                                                                                                    <li class="item__sub-sub-item">
+                                                                        <a class="item__link" href="letter-of-recommendation">Letter of Recommendation</a>
+                                                                    </li>
+                                                                                                                            </ul>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="essays">Essays and compositions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="articles-and-reports">Articles and reports</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="re">Reviews</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="writing-for-ielts">Writing for IELTS</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>READING </p></span>
+                                            <span class="submenu__toggler">READING </span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="reading-skill-0-general-advice">Reading Skill 0 - General advice</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="reading-skill-1-identifying-the-tasks">Reading Skill 1 - Identifying the Tasks</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="reading-skill-2-using-the-first-paragraph-to-make-predictions">Reading Skill 2 - Using the First Paragraph to Make Predictions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="multiple-choice-b2">Multiple choice B2</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="multiple-choice-c1">Multiple choice C1</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="paragraph-headings-b2">Paragraph headings B2</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="paragraph-headings-c1">Paragraph headings C1</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="missing-sentences-b2">Missing sentences B2</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="missing-sentences-c1">Missing sentences C1</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="missing-paragraphs-b2">Missing paragraphs B2</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="missing-paragraphs-c1">Missing paragraphs C1</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="multiple-matching-b2">Multiple matching B2</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="multiple-matching-c1">Multiple matching C1</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>LISTENING</p></span>
+                                            <span class="submenu__toggler">LISTENING</span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-0-general-advice">Listening Skill 0 - General advice</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-1-making-assumptions">Listening Skill 1 - Making Assumptions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-2-listening-for-similar-meanings">Listening Skill 2 - Listening for Similar Meanings</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-3-listening-for-emotions">Listening Skill 3 - Listening for Emotions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-4-listening-for-comparisons-and-contrasts">Listening Skill 4 - Listening for Comparisons and Contrasts</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-5-listening-for-negative-meaning">Listening Skill 5 - Listening for Negative Meaning</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-6-listening-for-chronology">Listening Skill 6 - Listening for Chronology</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-7-main-idea-questions">Listening Skill 7 - Main Idea Questions</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-skill-8-detail-questions">Listening Skill 8 - Detail Questions</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>GRAMMAR</p></span>
+                                            <span class="submenu__toggler">GRAMMAR</span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="articles">Articles</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="uncountable-nouns">Uncountable nouns</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="prese">Present Tenses</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="pas">Past Tenses</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="future">Future Tenses</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="passives">Passives</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="reported-speech">Reported speech</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="conditionals">Conditionals</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="modal-verbs">Modal verbs</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="gerunds-and-infinitives">Gerunds and infinitives</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="relative-clauses">Relative clauses</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>VOCABULARY</p></span>
+                                            <span class="submenu__toggler">VOCABULARY</span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="phra">Phrasal verbs</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="formal-and-informal">Formal and informal English</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="word-formation">Word formation</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="linking-words">Linking words</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="academic">Academic word list</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="easily-confused-words">Easily confused words</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="key-words-for-ielts">Key words for IELTS</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="key-words-for-toefl">Key words for TOEFL</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="submenu" data-submenu="">
+                                            <span class="submenu__desktop-toggler"><p>Answer Key</p></span>
+                                            <span class="submenu__toggler">Answer Key</span>
+
+                                            <ul class="submenu__list list">
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="reading-answer-key">Reading</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="listening-answer-key">Listening</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="grammar-answer-key">Grammar</a>
+                                                                                                            </li>
+                                                                                                    <li class="list__item item">
+                                                                                                                    <a class="item__link" href="vocabulary-answer-key">Vocabulary</a>
+                                                                                                            </li>
+                                                                                            </ul>
+                                        </li>
+                                                                                                                                                <li class="nav-item has-text-red">
+                                            <a href="https://testmaximizer.com/books">Books</a>
+                                        </li>
+                                                                                                                                                <li class="nav-item has-text-red">
+                                            <a href="http://testmaximizer.com/blog">BLOG</a>
+                                        </li>
+                                                                                                                                                    </ul>
+                    </nav>
+                </div>
+            </div>
+
+    </header>
+
+    
+<div class="site-content">
+
+    <div class="site-content__article-single article-single">
+        <div class="wrapper">
+            <div class="back-link">
+                <a href="https://testmaximizer.com/formal-and-informal" class="back-link__btn"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
+            </div>
+            <h3 class="article-single__title">Formal and informal English</h3>
+
+            <div class="article-single__content content"><p><br />
+Formal language is more common when we write; informal language is more common when we speak. However, there are times where writing can be very informal, for example, when writing postcards or letters to friends, emails or text messages. There are also examples where spoken English can be very formal, for example, in a speech or a lecture.<br />
+ </p>
+
+<p>Formal language and informal language are associated with particular choices of grammar and vocabulary.<br />
+ </p>
+
+<p><strong><em>GRAMMAR</em></strong></p>
+
+<table border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td style="width:302px;">
+			<p><strong><em>FORMAL</em></strong></p>
+			</td>
+			<td style="width:302px;">
+			<p><strong><em>INFORMAL</em></strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p><strong>She has</strong> decided to accept the job.</p>
+			</td>
+			<td style="width:302px;">
+			<p><strong>She’s</strong> decided to accept the job.</p>
+
+			<p><em>INFORMAL: She’s = contraction</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>The girl <strong>whom</strong> <strong>I met </strong>in Singapore was interested in working in Australia.</p>
+			</td>
+			<td style="width:302px;">
+			<p>The girl <strong>I met</strong> in Singapore was interested in working in Australia.</p>
+
+			<p><em>INFORMAL: relative clause without the relative pronoun 'whom'</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>We will <strong>reduce</strong> spending.</p>
+
+			<p><em>FORMAL: phrasal verbs are rarely used</em></p>
+			</td>
+			<td style="width:302px;">
+			<p>We will have to <strong>cut down on</strong> spending.</p>
+
+			<p><em>INFORMAL: phrasal verbs are often used</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>When <strong>one</strong> is angry, one acts less rationally.</p>
+
+			<p><em>FORMAL: ‘one’ is usually used for generic statements about people</em></p>
+			</td>
+			<td style="width:302px;">
+			<p>When <strong>you</strong> are angry, you act less rationally.</p>
+
+			<p><em>INFORMAL: ‘you’ is usually used for generic statements about people</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>It was <strong>she who</strong> first saw what to do.</p>
+
+			<p><em>FORMAL: subject form of pronouns</em></p>
+			</td>
+			<td style="width:302px;">
+			<p>It was <strong>her that</strong> first saw what to do.</p>
+
+			<p><em>INFORMAL: object form of pronouns</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>We think <strong>that</strong> it is possible.</p>
+
+			<p></p>
+			</td>
+			<td style="width:302px;">
+			<p>We think it's possible.</p>
+
+			<p><em>INFORMAL: Ellipsis (leaving out words) is more common in informal language.</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p><strong>In which</strong> century did he live?</p>
+
+			<p></p>
+			</td>
+			<td style="width:302px;">
+			<p><strong>Which </strong>century did he live <strong>in</strong>?</p>
+
+			<p><em>INFORMAL: Prepositions come at the end of certain structures in informal language.</em></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><br />
+ </p>
+
+<p><strong><em>VOCABULARY</em></strong></p>
+
+<p>More formal vocabulary commonly involves longer words or words with origins in Latin and Greek. More informal vocabulary commonly involves shorter words, or words with Anglo-Saxon origins.</p>
+
+<table border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td style="width:302px;">
+			<p><strong><em>FORMAL</em></strong></p>
+			</td>
+			<td style="width:302px;">
+			<p><strong><em>INFORMAL </em></strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to appear</p>
+			</td>
+			<td style="width:302px;">
+			<p>to seem</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to assist / to aid</p>
+			</td>
+			<td style="width:302px;">
+			<p>to help</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>beverage</p>
+			</td>
+			<td style="width:302px;">
+			<p>a drink</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to cease</p>
+			</td>
+			<td style="width:302px;">
+			<p>to stop</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>children</p>
+			</td>
+			<td style="width:302px;">
+			<p>kids</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to commence</p>
+			</td>
+			<td style="width:302px;">
+			<p>to start</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>comprehension</p>
+			</td>
+			<td style="width:302px;">
+			<p>understanding</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to consume</p>
+			</td>
+			<td style="width:302px;">
+			<p>to eat</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to demonstrate</p>
+			</td>
+			<td style="width:302px;">
+			<p>to show</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to depart</p>
+			</td>
+			<td style="width:302px;">
+			<p>to leave</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to endeavour</p>
+			</td>
+			<td style="width:302px;">
+			<p>to try</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>entire</p>
+			</td>
+			<td style="width:302px;">
+			<p>whole</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to function</p>
+			</td>
+			<td style="width:302px;">
+			<p>to work</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>inexpensive</p>
+			</td>
+			<td style="width:302px;">
+			<p>cheap</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>initially</p>
+			</td>
+			<td style="width:302px;">
+			<p>at first</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to obtain</p>
+			</td>
+			<td style="width:302px;">
+			<p>to get</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to purchase</p>
+			</td>
+			<td style="width:302px;">
+			<p>to buy</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to reside</p>
+			</td>
+			<td style="width:302px;">
+			<p>to live</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>residence</p>
+			</td>
+			<td style="width:302px;">
+			<p>home</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to retain</p>
+			</td>
+			<td style="width:302px;">
+			<p>to keep</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to require</p>
+			</td>
+			<td style="width:302px;">
+			<p>to want</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>subsequently</p>
+			</td>
+			<td style="width:302px;">
+			<p>later</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>sufficient</p>
+			</td>
+			<td style="width:302px;">
+			<p>enough</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>to terminate</p>
+			</td>
+			<td style="width:302px;">
+			<p>to end</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>therefore</p>
+			</td>
+			<td style="width:302px;">
+			<p>so</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:302px;">
+			<p>ultimately</p>
+			</td>
+			<td style="width:302px;">
+			<p>in the end</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><br />
+ </p>
+
+<p>It can be tempting to use formal vocabulary in the hope that it will add more weight to what you are saying, or just sound generally more impressive or sophisticated. You should generally try to resist this temptation. Using formal English in everyday situations can make your writing sound pompous or pretentious.<br />
+<br />
+<strong>Exercise 1.</strong></p>
+
+<p><strong>Make the underline words more formal.</strong><br />
+ </p>
+
+<p></p>
+
+<p>1, I’ll go and email Karen <u>right away</u>.</p>
+
+<p>2, The researchers <u>use</u> the most modern equipment.</p>
+
+<p>3, This problem <u>often happens</u> with older software.</p>
+
+<p>4, The study <u>showed</u> a link between stress and ill-health.</p>
+
+<p>5, The book <u>gives</u> us a picture of ordinary life in the Middle Ages.</p>
+
+<p>6, The government <u>tried</u> to reduce unemployment by supporting new businesses.</p>
+
+<p>7, Anyone <u>looking for</u> employment in the film industry faces a tough time.</p>
+
+<p>8, How <u>often</u> does the temperature fall to below zero?</p>
+
+<p>9, Poverty is a <u>basic</u> issue in the world today.</p>
+
+<p>10, The doctor <u>gave</u> the patient a new drug that had not been fully tested.</p>
+
+<p><br />
+ </p>
+
+<p><strong>Exercise 2.</strong></p>
+
+<p><b>Fill in the table with (informal) phrasal verbs and their (formal) one-word substitutions.</b></p>
+
+<p></p>
+
+<p></p>
+</div>
+                                                <div class="article-single__locked-cto locked-cto">
+                        <div class="locked-cto__content content">
+                            <img src="https://testmaximizer.com/assets/frontend/img/locked.png" alt="locked">
+                            <p class="content__text">Please log in to read the following part!</p>
+                        </div>
+                        <div class="btn-wrapper">
+                            <a href="#login-popup" class="btn btn--secondary btn--bold btn--uppercase">log in</a>
+                        </div>
+                    </div>
+                                    </div>
+    </div>
+
+</div>
+
+
+    <footer class="site-footer">
+        <div class="wrapper">
+                        <div class="site-footer__connect connect">
+                <p class="connect__title">connect with us</p>
+                <hr>
+                <div class="connect__list list">
+                    <a href="https://www.facebook.com/Testmaximizer-439103153335959" class="list__item"><i class="fa fa-2x fa-facebook" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/testmaximizer/?hl=hu" class="list__item"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
+
+                    <a href="mailto:info@testmaximizer.com" class="list__item"><i class="fa fa-2x fa-envelope" aria-hidden="true"></i></a>
+                </div>
+                <br>
+                <div class="site-footer__menu site-footer__privacy">
+                    <a href="https://testmaximizer.com/files/testmaximizer_terms_privacy_policy.pdf"
+                    target="_blank"
+                    class="menu__item">
+                        Privacy Policy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="login-popup" class="login-popup-overlay">
+    <div class="popup-body">
+        <a class="popup-body__close popup-link" href="">close</a>
+        <form action="https://testmaximizer.com/login" method="post" class="popup-body__form form">
+            <input type="hidden" name="_token" value="SRVVhKrzweekcLFP6i4sM4lejN5G21A79cpw1iZf">
+            <img src="https://testmaximizer.com/assets/frontend/img/user-l.png" alt="login logo" class="login-logo">
+            <div class="block--input email ">
+                <input type="email" name="email" value="" placeholder="email" required>
+            </div>
+            <div class="block--input password ">
+                <input type="password" name="password" value="" placeholder="password" required>
+            </div>
+            <div class="block--input errors ">
+                <span class="error-text"></span>
+            </div>
+            <button type="submit" class="btn btn--secondary btn--bold btn--uppercase btn--fullwidth btn--login">log in</button>
+            <div class="form__links">
+                <a class="popup-link" href="/password/reset">Have trouble logging in?</a>
+                <a class="popup-link" href="https://testmaximizer.com/signup">Sign up</a>
+            </div>
+        </form>
+        <form id="logout-form" action="https://testmaximizer.com/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="SRVVhKrzweekcLFP6i4sM4lejN5G21A79cpw1iZf"></form>
+    </div>
+</div>
+
+<script src="https://testmaximizer.com/assets/frontend/js/app.js"></script>
+
+</body>
+</html>
