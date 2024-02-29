@@ -65,3 +65,4 @@ Install the following packages:
 - Create `init_database.py` file
 - Create tunnel via ngrok utilizing API directly on top of Google Colab 
 - Utilize Constants in backend
+- Write requirements.txt
