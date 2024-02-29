@@ -43,7 +43,7 @@ Install the following packages:
 1. Python version 3.10.11 should be used. Python 3.11 should also be possible to use, but using version 3.12.x might break the code due to compatibility reason for certain libraries (faiss-cpu)
 2. Change the `MODEL_PATH` in `constants.py` at `/app/backend` to the correct location of the quantized LLM.
 3. <i>Optional:</i> If a custom vector-store is used also change the location stored in the variable `DB_FAISS_PATH` according to Step 2 above.
-
+4. <i>Optional:</i> If a User has more than 12GB RAM, using a higher max_token count (default=1024) can be utilized in `constants.py` for a better conversation experience.
 
 # Usage
 ## Backend
